@@ -1,13 +1,37 @@
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  overflow: hidden;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 8pt;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+pre {
+  font-size: 6em;
+}
+ .tick line{
+   stroke: #C0C0BB;
+ }
+ .tick text{
+  fill: #635F5D;
+  cursor: default;
+ }
+ .axis-title{
+   font-size: 1.8em;
+ }
+
+label, select {
+  font-size: 2em;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+select option{
+  font-size: 1rem;
+}
+
+.dropdown{
+  position: absolute;
+  left: 50vw;
+  transform: translate(-50%);
+  top: 30px;
 }
