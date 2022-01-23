@@ -1,7 +1,5 @@
-
-import React, { useState, useCallback, useEffect } from 'react';
-import ReactDOM from 'react-dom';
-import { csv, scaleBand, scaleLinear, scaleOrdinal, max, lab } from 'd3';
+import React, { useState} from 'react';
+import { scaleBand, scaleLinear, scaleOrdinal, max, lab } from 'd3';
 import { useData } from './useData';
 import { AxisBottom } from './AxisBottom.js';
 import { AxisLeft } from './AxisLeft';

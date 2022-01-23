@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { csv } from 'd3';
 
 const csvUrl = 'https://gist.githubusercontent.com/Adaman32/a48ebb6930ce28e77feaa4a832a4776b/raw/8d144e066853f6270483db85277b4d4a8ba02d10/groupsData.csv';
