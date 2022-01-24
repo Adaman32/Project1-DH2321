@@ -95,7 +95,7 @@ const App = () => {
   const xValue = d => d[selectedCriterionValue];  
   const axisLabel = getLabel(selectedCriterionValue);
 
-  const [selectedSortValue, setSortSelectedValue] = useState('ascending');
+  const [selectedSortValue, setSortSelectedValue] = useState(null);
 
   if (!data || !qualitativeData) {
     return <pre>Loading...</pre>;
