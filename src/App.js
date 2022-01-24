@@ -1,6 +1,7 @@
 import React, { useState} from 'react';
-import { scaleBand, scaleLinear, scaleOrdinal } from 'd3';
+import { scaleBand, scaleLinear, scaleOrdinal, sort } from 'd3';
 import { useData } from './useData';
+import { useQualitativeData } from './useQualitativeData';
 import { AxisBottom } from './AxisBottom.js';
 import { AxisLeft } from './AxisLeft';
 import { Marks } from './Marks';
@@ -16,7 +17,9 @@ const xAxisLabelOffset = 50;
 const colorValue = d => d.major;
 const colorLegendLabel = 'Major';
 
-const options = [
+const colors = ['#E6842A','#137B80','#8E6C8A', '#E3BA22', '#BD2D28', '#05426C', '#A0B700', '#33B6D0', '#DCBDCF', '#842']
+
+const propertyOptions = [
   {value: 'informationVisualization', label:'Information Visualization skill'},
   {value: 'statistics', label: 'Statistical skill'},
   {value: 'mathematics', label: 'Mathematics skill'},
@@ -31,11 +34,16 @@ const options = [
   {value: 'codeRepository',label: 'Code Repository skill'}
 ];
 
+const sortOptions = [
+  {value: 'ascending', label:'Ascending values'},
+  {value: 'descending', label: 'Descending values'},
+];
+
 const getLabel = value => {
     
-  for(let i=0; i < options.length; i++){
-    if(options[i].value === value){
-      return options[i].label;
+  for(let i=0; i < propertyOptions.length; i++){
+    if(propertyOptions[i].value === value){
+      return propertyOptions[i].label;
     }
   }
 
@@ -43,15 +51,18 @@ const getLabel = value => {
 
 const App = () => {
   const data = useData();
+  const qualitativeData = useQualitativeData();
   const [hoveredValue, setHoveredValue] = useState(null);
 
-  console.log(data);
+  console.log(qualitativeData);
 
   const initialXAttribute = 'programming';
-  const [selectedValue, setSelectedValue] = useState(initialXAttribute);
+  const [selectedCriterionValue, setCriterionSelectedValue] = useState(initialXAttribute);
   const yValue = d => d.alias;
-  const xValue = d => d[selectedValue];  
-  const axisLabel = getLabel(selectedValue);
+  const xValue = d => d[selectedCriterionValue];  
+  const axisLabel = getLabel(selectedCriterionValue);
+
+  const [selectedSortValue, setSortSelectedValue] = useState('ascending');
 
   if (!data) {
     return <pre>Loading...</pre>;
@@ -71,25 +82,46 @@ const App = () => {
   	.nice();
   
   const colorScale = scaleOrdinal()
-  	.domain(data.map(colorValue))
-  	.range(['#E6842A','#137B80','#8E6C8A', '#E3BA22', '#BD2D28', '#05426C', '#A0B700', '#33B6D0', '#DCBDCF', '#842']);
-  
+      .domain(data.map(colorValue))
+      .range(colors);
     
-  
   const filteredData = data.filter(d => hoveredValue === colorValue(d));
   
+  function compareAsc(a, b) {
+    if(+a[selectedCriterionValue] > +b[selectedCriterionValue]) return -1;
+    if(+a[selectedCriterionValue] < +b[selectedCriterionValue]) return 1;
+    else return 0;
+  }
+
+  function compareDesc(a, b) {
+    if(+a[selectedCriterionValue] < +b[selectedCriterionValue]) return -1;
+    if(+a[selectedCriterionValue] > +b[selectedCriterionValue]) return 1;
+    else return 0;
+  }
+
+  if(selectedSortValue === 'ascending') {
+    data.sort(compareAsc);
+  }
+  else data.sort(compareDesc);
+
   return (
     <>
-      <g className='dropdown'>
+      <div className='dropdown'>
         <label htmlFor="property">Criterion: </label>
         <Dropdown 
-          key="property"
-          options={options} 
+          options={propertyOptions} 
           id="property" 
-          onSelectedValueChange={setSelectedValue}
-          selectedValue={selectedValue}
+          onSelectedValueChange={setCriterionSelectedValue}
+          selectedValue={selectedCriterionValue}
         />
-      </g>
+        <label style={{marginLeft: 50 + 'px'}} htmlFor="sort">Sort by: </label>
+        <Dropdown 
+          options={sortOptions} 
+          id="sort" 
+          onSelectedValueChange={setSortSelectedValue}
+          selectedValue={selectedSortValue}
+        />
+      </div>
       <svg width={width} height={height}>
         <g transform={`translate(${margin.left},${margin.top})`}>
           <AxisBottom xScale={xScale} innerHeight={innerHeight} />
@@ -100,7 +132,7 @@ const App = () => {
             y={innerHeight + xAxisLabelOffset} 
             textAnchor="middle"
           >{axisLabel}</text>
-          <g className="tick" transform={`translate(${innerWidth + 75}, 150)`}>
+          <g className="tick" transform={`translate(${innerWidth + 75}, 50)`}>
             <text 
               textAnchor="middle" 
               className="axis-label"

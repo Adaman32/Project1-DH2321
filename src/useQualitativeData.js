@@ -1,16 +1,16 @@
 import { useState, useEffect } from 'react';
 import { csv } from 'd3';
 
-const csvUrl = 'https://gist.githubusercontent.com/Adaman32/a48ebb6930ce28e77feaa4a832a4776b/raw/adac3262a0a064f25c196fba2531eeed6d0a5373/groupsData.csv';
+const csvUrl = 'https://gist.githubusercontent.com/Adaman32/abf4367902e81780854974c24d1f717b/raw/fa541fdc901507d8cf9349baa32b8bd17ec2d55a/qualitativeData';
 
-export const useData = () =>{
+export const useQualitativeData = () =>{
   const [data, setData] = useState(null);
   
   useEffect(() => {
     let cancel = false;
 
     const row = (d) => {
-      d.Collaboration = +d['1'];
+      
       return d;
     };
 
