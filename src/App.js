@@ -17,7 +17,7 @@ const xAxisLabelOffset = 50;
 const colorValue = d => d.major;
 const colorLegendLabel = 'Major';
 
-const hobbyLegendLabel = 'Hobbies';
+// const hobbyLegendLabel = 'Hobbies';
 
 const colors = ['#E6842A','#137B80','#8E6C8A', '#E3BA22', '#BD2D28', '#05426C', '#A0B700', '#33B6D0', '#DCBDCF', '#842']
 
@@ -36,19 +36,19 @@ const propertyOptions = [
   {value: 'codeRepository',label: 'Code Repository skill'}
 ];
 
-const hobbies = [
-  {value: 'games', label: 'Games' },
-  {value: 'sports', label: 'Sports' },
-  {value: 'music', label: 'Music' },
-  {value: 'desgnArt', label: 'Design, Art & Photography' },
-  {value: 'nature', label: 'Nature & Hiking' },
-  {value: 'moviesSeriesYoutube', label: 'Watching Movies, Series or Youtube' },
-  {value: 'workOut', label: 'Working out' },
-  {value: 'reading', label: 'Reading' },
-  {value: 'goingOut', label: 'Going out with friends' },
-  {value: 'programming', label: 'Programming' },
-  {value: 'cooking', label: 'Cooking' },
-]
+// const hobbies = [
+//   {value: 'games', label: 'Games' },
+//   {value: 'sports', label: 'Sports' },
+//   {value: 'music', label: 'Music' },
+//   {value: 'desgnArt', label: 'Design, Art & Photography' },
+//   {value: 'nature', label: 'Nature & Hiking' },
+//   {value: 'moviesSeriesYoutube', label: 'Watching Movies, Series or Youtube' },
+//   {value: 'workOut', label: 'Working out' },
+//   {value: 'reading', label: 'Reading' },
+//   {value: 'goingOut', label: 'Going out with friends' },
+//   {value: 'programming', label: 'Programming' },
+//   {value: 'cooking', label: 'Cooking' },
+// ]
 
 const sortOptions = [
   {value: 'ascending', label:'Ascending values'},
@@ -63,24 +63,24 @@ const getLabel = value => {
   }
 };
 
-const HobbyLegend = ({
-  hobbyScale, 
-  tickSpacing = 10, 
-  tickSize = 7, 
-  tickTextOffset = 15,
-}) => 
+// const HobbyLegend = ({
+//   hobbyScale, 
+//   tickSpacing = 10, 
+//   tickSize = 7, 
+//   tickTextOffset = 15,
+// }) => 
   
-  hobbyScale.range().map((rangeValue, i) => (
-        <g 
-          key={i}
-          transform={`translate(0,${i * tickSpacing})`}
-        >
-        <text 
-          dy=".32em"
-          x={tickTextOffset}
-          >{rangeValue}</text>
-        </g>
-  ));
+//   hobbyScale.range().map((rangeValue, i) => (
+//         <g 
+//           key={i}
+//           transform={`translate(0,${i * tickSpacing})`}
+//         >
+//         <text 
+//           dy=".32em"
+//           x={tickTextOffset}
+//           >{rangeValue}</text>
+//         </g>
+//   ));
 
 const App = () => {
   const data = useData();
@@ -118,9 +118,9 @@ const App = () => {
       .domain(data.map(colorValue))
       .range(colors);
 
-  const hobbyScale = scaleOrdinal()
-    .domain(qualitativeData.map(yValue))
-    .range(qualitativeData.columns);
+  // const hobbyScale = scaleOrdinal()
+  //   .domain(qualitativeData.map(yValue))
+  //   .range(qualitativeData.columns);
 
 
   const filteredData = data.filter(d => hoveredValue === colorValue(d));
@@ -177,7 +177,7 @@ const App = () => {
               x={25}
               y={-25}
               fontSize={24}
-              >{hobbyLegendLabel}</text>
+              >{colorLegendLabel}</text>
             <ColorLegend 
               tickSpacing = {25}
               colorScale={colorScale}
@@ -185,7 +185,7 @@ const App = () => {
               hoveredValue={hoveredValue}
             />
           </g>
-          <g className="tick" transform={`translate(${innerWidth + 75}, 350)`}>
+          {/* <g className="tick" transform={`translate(${innerWidth + 75}, 350)`}>
             <text 
               textAnchor="middle" 
               className="axis-label"
@@ -197,7 +197,7 @@ const App = () => {
               hobbyScale={hobbyScale}
               tickSpacing={25}
             />
-          </g>
+          </g> */}
           <g opacity={hoveredValue ? 0.2 : 1}>
             <Marks 
               data={data} 
