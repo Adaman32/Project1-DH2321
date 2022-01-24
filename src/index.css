@@ -46,6 +46,15 @@ select option{
   text-overflow: clip;
 }
 
+.updateButton{
+  padding: 10px;
+  text-align: center;
+  margin-left: 40px;
+  /* text-decoration: none; */
+  /* display: inline-block; */
+  font-size: 16px;
+}
+
 #hobbies{
   text-anchor: start;
 }

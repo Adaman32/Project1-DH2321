@@ -220,7 +220,7 @@ const App = () => {
           onSelectedValueChange={setSortSelectedValue}
           selectedValue={selectedSortValue}
         />
-        <button id={updatedValue} onClick={setUpdatedValue}>Update</button>
+        <button className='updateButton' id={updatedValue} onClick={setUpdatedValue}>Update</button>
       </div>
       <svg width={width} height={height}>
         <g transform={`translate(${margin.left},${margin.top})`}>
