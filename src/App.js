@@ -137,6 +137,8 @@ const App = () => {
     else return 0;
   }
 
+  data.sort();
+
   if(selectedSortValue === 'ascending') {
     data.sort(compareAsc);
   }
