@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { csv } from 'd3';
 
-const csvUrl = 'https://gist.githubusercontent.com/Adaman32/a48ebb6930ce28e77feaa4a832a4776b/raw/adac3262a0a064f25c196fba2531eeed6d0a5373/groupsData.csv';
+const csvUrl = 'https://gist.githubusercontent.com/Adaman32/a48ebb6930ce28e77feaa4a832a4776b/raw/4c56da4883b73f4fb3f6908e88da41ff9bbc43d0/groupsData.csv';
 
 export const useData = () =>{
   const [data, setData] = useState(null);

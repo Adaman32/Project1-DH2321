@@ -16,6 +16,7 @@ export const ColorLegend = ({
           >
               <circle fill={colorScale(domainValue)} r={tickSize}/>
           <text 
+            className="legend"
             dy=".32em"
             x={tickTextOffset}
             >{domainValue}</text>

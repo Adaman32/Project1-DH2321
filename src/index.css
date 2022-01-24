@@ -31,7 +31,30 @@ select option{
 
 .dropdown{
   position: absolute;
-  left: 50vw;
+  left: 25vw;
   transform: translate(-50%);
   top: 30px;
+}
+
+.individual text{
+  fill: #635F5D;
+  font-size: 10pt;
+  cursor: default;
+  text-anchor:end;
+  width: 200px;
+  overflow: hidden;
+  text-overflow: clip;
+}
+
+#hobbies{
+  text-anchor: start;
+}
+
+.shape {
+  fill: #eee;
+  stroke: #ccc;
+}
+
+.legend{
+  font-size: 12pt;
 }

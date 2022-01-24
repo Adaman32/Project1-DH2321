@@ -1,4 +1,4 @@
-export const Marks = ({data, xScale, yScale, xValue, yValue, colorScale, colorValue}) => 
+export const Marks = ({data, xScale, yScale, xValue, yValue, colorScale, colorValue, showIndividualData}) => 
 	data.map((d) => (
           <rect
             className="mark"
@@ -7,7 +7,7 @@ export const Marks = ({data, xScale, yScale, xValue, yValue, colorScale, colorVa
             width={xScale(xValue(d))}
             height={yScale.bandwidth()}
             fill={colorScale(colorValue(d))}
-            onClick={() => (console.log(d))}
+            onClick={() => showIndividualData(d)}
           />
     			
         ))

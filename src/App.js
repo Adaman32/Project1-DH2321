@@ -1,12 +1,13 @@
 import React, { useState} from 'react';
 import { scaleBand, scaleLinear, scaleOrdinal } from 'd3';
 import { useData } from './useData';
-import { useQualitativeData } from './useQualitativeData';
+// import { useQualitativeData } from './useQualitativeData';
 import { AxisBottom } from './AxisBottom.js';
 import { AxisLeft } from './AxisLeft';
 import { Marks } from './Marks';
 import { ColorLegend } from './ColorLegend';
 import { Dropdown } from './Dropdown';
+
 
 const width = window.innerWidth;
 const height = window.innerHeight;
@@ -82,12 +83,68 @@ const getLabel = value => {
 //         </g>
 //   ));
 
+// export const Marks = ({data, xScale, yScale, xValue, yValue, colorScale, colorValue, showIndividualData}) => 
+// 	data.map((d) => (
+//           <rect
+//             className="mark"
+//             key={yValue(d)}
+//             y={yScale(yValue(d))}
+//             width={xScale(xValue(d))}
+//             height={yScale.bandwidth()}
+//             fill={colorScale(colorValue(d))}
+//             onClick={() => showIndividualData(d)}
+//           />
+    			
+//         ))
+
+
+const IndividualData = ({selectedIndividual, tickSpacing}) => (   
+<g className='individual'>
+  <text style={{fontSize: 2+"em", textAnchor: "start"}} >{selectedIndividual.alias}</text>
+  {console.log(selectedIndividual.programming)}
+  <text id="hobbies" transform={`translate(0, ${tickSpacing})`}>{selectedIndividual.hobbiesInterests}</text>
+  <text transform={`translate(0, ${tickSpacing * 2})`}>Programming skill: </text>
+  <text transform={`translate(0, ${tickSpacing * 3})`}>Communication skill: </text>
+  <text transform={`translate(0, ${tickSpacing * 4})`}>Collaboration skill: </text>
+  <text transform={`translate(0, ${tickSpacing * 5})`}>Drawing and Artistic skill: </text>
+  <text transform={`translate(0, ${tickSpacing * 6})`}>Computer Graphics programming skill: </text>
+  <text transform={`translate(0, ${tickSpacing * 7})`}>Mathematics skill: </text>
+  <text transform={`translate(0, ${tickSpacing * 8})`}>Information Visualization skill: </text>
+  <text transform={`translate(0, ${tickSpacing * 9})`}>Computer Usage skill: </text>
+  <text transform={`translate(0, ${tickSpacing * 10})`}>Human-Computer Interaction skill: </text>
+  <text transform={`translate(0, ${tickSpacing * 11})`}>UX Evaluation skill: </text>
+  <text transform={`translate(0, ${tickSpacing * 12})`}>Statistics skill: </text>
+</g>
+);
+
+const IndividualDataBars = ({selectedIndividual, tickSpacing, height, width}) => (
+  <g className='individual' transform='translate(10, -10)'>
+    <rect fill="#842" width={selectedIndividual.programming * width} height={height} transform={`translate(0, ${tickSpacing * 2})`}></rect>
+    <rect fill="#842" width={selectedIndividual.communication * width} height={height} transform={`translate(0, ${tickSpacing * 3})`}></rect>
+    <rect fill="#842" width={selectedIndividual.collaboration * width} height={height} transform={`translate(0, ${tickSpacing * 4})`}></rect>
+    <rect fill="#842" width={selectedIndividual.artistic * width} height={height} transform={`translate(0, ${tickSpacing * 5})`}></rect>
+    <rect fill="#842" width={selectedIndividual.graphics * width} height={height} transform={`translate(0, ${tickSpacing * 6})`}></rect>
+    <rect fill="#842" width={selectedIndividual.mathematics * width} height={height} transform={`translate(0, ${tickSpacing * 7})`}></rect>
+    <rect fill="#842" width={selectedIndividual.informationVisualization * width} height={height} transform={`translate(0, ${tickSpacing * 8})`}></rect>
+    <rect fill="#842" width={selectedIndividual.computerUsage * width} height={height} transform={`translate(0, ${tickSpacing * 9})`}></rect>
+    <rect fill="#842" width={selectedIndividual.hci * width} height={height} transform={`translate(0, ${tickSpacing * 10})`}></rect>
+    <rect fill="#842" width={selectedIndividual.uxEvaluation * width} height={height} transform={`translate(0, ${tickSpacing * 11})`}></rect>
+    <rect fill="#842" width={selectedIndividual.statistics * width} height={height} transform={`translate(0, ${tickSpacing * 12})`}></rect>
+  </g>
+)
+  
+
+  
+
+
+
+
 const App = () => {
   const data = useData();
-  const qualitativeData = useQualitativeData();
+  // const qualitativeData = useQualitativeData();
   const [hoveredValue, setHoveredValue] = useState(null);
 
-  console.log(qualitativeData);
+  // console.log(qualitativeData);
 
   const initialXAttribute = 'programming';
   const [selectedCriterionValue, setCriterionSelectedValue] = useState(initialXAttribute);
@@ -95,9 +152,11 @@ const App = () => {
   const xValue = d => d[selectedCriterionValue];  
   const axisLabel = getLabel(selectedCriterionValue);
 
-  const [selectedSortValue, setSortSelectedValue] = useState(null);
+  const [selectedIndividual, setSelectedIndividual] = useState('Gandalbldore');
+  console.log(selectedIndividual);
+  const [selectedSortValue, setSortSelectedValue] = useState('ascending');
 
-  if (!data || !qualitativeData) {
+  if (!data) {
     return <pre>Loading...</pre>;
   }
   
@@ -111,16 +170,17 @@ const App = () => {
 
   const xScale = scaleLinear()
     .domain([0, 10])
-    .range([0, innerWidth])
+    .range([0, innerWidth*0.6])
   	.nice();
   
+    const xScaleIndividual = scaleLinear()
+    .domain([0, 10])
+    .range([0, 200])
+  	.nice();
+
   const colorScale = scaleOrdinal()
       .domain(data.map(colorValue))
       .range(colors);
-
-  // const hobbyScale = scaleOrdinal()
-  //   .domain(qualitativeData.map(yValue))
-  //   .range(qualitativeData.columns);
 
 
   const filteredData = data.filter(d => hoveredValue === colorValue(d));
@@ -136,8 +196,6 @@ const App = () => {
     if(+a[selectedCriterionValue] > +b[selectedCriterionValue]) return 1;
     else return 0;
   }
-
-  data.sort();
 
   if(selectedSortValue === 'ascending') {
     data.sort(compareAsc);
@@ -168,48 +226,36 @@ const App = () => {
           <AxisLeft yScale={yScale}/>
           <text 
             className="axis-title" 
-            x={innerWidth / 2} 
+            x={innerWidth * 0.6/2} 
             y={innerHeight + xAxisLabelOffset} 
             textAnchor="middle"
           >{axisLabel}</text>
-          <g className="tick" transform={`translate(${innerWidth + 75}, 50)`}>
+          <g className="tick" transform={`translate(${innerWidth*0.6 + 50}, 50)`}>
             <text 
               textAnchor="middle" 
               className="axis-label"
               x={25}
               y={-25}
-              fontSize={24}
+              fontSize={32}
               >{colorLegendLabel}</text>
             <ColorLegend 
+              clasName="legend"
               tickSpacing = {25}
               colorScale={colorScale}
               onHover={setHoveredValue}
               hoveredValue={hoveredValue}
             />
           </g>
-          {/* <g className="tick" transform={`translate(${innerWidth + 75}, 350)`}>
-            <text 
-              textAnchor="middle" 
-              className="axis-label"
-              x={25}
-              y={-25}
-              fontSize={24}
-              >{colorLegendLabel}</text>
-            <HobbyLegend
-              hobbyScale={hobbyScale}
-              tickSpacing={25}
-            />
-          </g> */}
           <g opacity={hoveredValue ? 0.2 : 1}>
             <Marks 
               data={data} 
-              qualitativeData = {qualitativeData}
               xScale={xScale} 
               yScale={yScale} 
               xValue={xValue} 
               yValue={yValue}
               colorScale={colorScale}
               colorValue={colorValue}
+              showIndividualData={setSelectedIndividual}
             />
           </g>
           <Marks 
@@ -220,7 +266,32 @@ const App = () => {
             yValue={yValue}
             colorScale={colorScale}
             colorValue={colorValue}
+            showIndividualData={setSelectedIndividual}
           />
+        </g>
+        <g className="hobbies" transform={`translate(${innerWidth/2 + 550}, 500)`}>
+          <IndividualData 
+            selectedIndividual={selectedIndividual}
+            tickSpacing = {25}
+          />
+          <g transform="translate(10,40)">
+          <AxisBottom 
+            xScale={xScaleIndividual} 
+            innerHeight={270} 
+            />
+          </g>
+          <IndividualDataBars 
+            selectedIndividual={selectedIndividual}
+            height={15}
+            tickSpacing = {25}
+            width={20}
+          />
+          <text 
+          fill='#635F5D'
+          textAnchor="middle" 
+          fontSize={16}
+          transform={`translate(120, 350)`}
+          >Skill level</text>
         </g>
       </svg>
     </>
