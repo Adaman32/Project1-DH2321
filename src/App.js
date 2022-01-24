@@ -143,6 +143,7 @@ const App = () => {
   const data = useData();
   // const qualitativeData = useQualitativeData();
   const [hoveredValue, setHoveredValue] = useState(null);
+  const [updatedValue, setUpdatedValue] = useState(null);
 
   // console.log(qualitativeData);
 
@@ -159,10 +160,6 @@ const App = () => {
   if (!data) {
     return <pre>Loading...</pre>;
   }
-  
-  const updateReact = () => (
-    console.log("Update")
-  );
 
   const innerHeight = height - margin.top - margin.bottom;
   const innerWidth = width - margin.left - margin.right;
@@ -223,7 +220,7 @@ const App = () => {
           onSelectedValueChange={setSortSelectedValue}
           selectedValue={selectedSortValue}
         />
-        <button onClick={updateReact}>Update</button>
+        <button id={updatedValue} onClick={setUpdatedValue}>Update</button>
       </div>
       <svg width={width} height={height}>
         <g transform={`translate(${margin.left},${margin.top})`}>
