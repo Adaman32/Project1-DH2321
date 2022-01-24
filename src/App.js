@@ -1,5 +1,5 @@
 import React, { useState} from 'react';
-import { scaleBand, scaleLinear, scaleOrdinal, sort } from 'd3';
+import { scaleBand, scaleLinear, scaleOrdinal } from 'd3';
 import { useData } from './useData';
 import { useQualitativeData } from './useQualitativeData';
 import { AxisBottom } from './AxisBottom.js';
