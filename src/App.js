@@ -153,13 +153,17 @@ const App = () => {
   const axisLabel = getLabel(selectedCriterionValue);
 
   const [selectedIndividual, setSelectedIndividual] = useState('Gandalbldore');
-  console.log(selectedIndividual);
+  // console.log(selectedIndividual);
   const [selectedSortValue, setSortSelectedValue] = useState('ascending');
 
   if (!data) {
     return <pre>Loading...</pre>;
   }
   
+  const updateReact = () => (
+    console.log("Update")
+  );
+
   const innerHeight = height - margin.top - margin.bottom;
   const innerWidth = width - margin.left - margin.right;
 
@@ -219,6 +223,7 @@ const App = () => {
           onSelectedValueChange={setSortSelectedValue}
           selectedValue={selectedSortValue}
         />
+        <button onClick={updateReact}>Update</button>
       </div>
       <svg width={width} height={height}>
         <g transform={`translate(${margin.left},${margin.top})`}>
