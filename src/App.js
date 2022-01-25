@@ -271,7 +271,7 @@ const App = () => {
             showIndividualData={setSelectedIndividual}
           />
         </g>
-        <g className="hobbies" transform={`translate(${innerWidth/2 + 500}, 380)`}>
+        <g className="hobbies" transform={`translate(${innerWidth/2 + 550}, 380)`}>
           <IndividualData 
             selectedIndividual={selectedIndividual}
             tickSpacing = {25}
